@@ -63,6 +63,15 @@ const classColors: Record<DiseaseClass, string> = {
 // ---------------------------------------------------------------------------
 export default function PredictionCard({ result }: PredictionCardProps) {
   const config = diseaseConfig[result.disease];
+  // Robust error handling for unknown disease labels
+  if (!config) {
+    console.warn(`Unknown disease label encountered: ${result.disease}`);
+    return (
+      <div className="rounded-2xl border p-5 bg-red-50 border-red-200 text-red-700">
+        <strong>Error:</strong> Unknown disease label: <code>{result.disease}</code>. Unable to display prediction card.
+      </div>
+    );
+  }
 
   return (
     <motion.div

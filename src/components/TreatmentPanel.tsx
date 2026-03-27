@@ -169,6 +169,17 @@ const urgencyBadge: Record<
 // ---------------------------------------------------------------------------
 export default function TreatmentPanel({ disease }: TreatmentPanelProps) {
   const data = treatments[disease];
+
+  // Robust error handling for unknown disease labels
+  if (!data) {
+    console.warn(`Unknown disease label encountered: ${disease}`);
+    return (
+      <div className="rounded-2xl border p-5 bg-red-50 border-red-200 text-red-700">
+        <strong>Error:</strong> Unknown disease label: <code>{disease}</code>. Unable to display treatment panel.
+      </div>
+    );
+  }
+
   const badge = urgencyBadge[data.urgency];
 
   return (

@@ -16,21 +16,21 @@ export async function predictDisease(file: File): Promise<PredictionResult> {
   formData.append("image", file);
 
   // In development / demo mode we return a simulated result after a delay
-  if (process.env.NODE_ENV === "development" || !API_BASE_URL) {
+  if (!API_BASE_URL) {
     return simulatePrediction(file);
   }
 
   const response = await apiClient.post<{
-    disease: DiseaseClass;
+    predicted_class: DiseaseClass;
     confidence: number;
     class_breakdown: Array<{ label: DiseaseClass; confidence: number }>;
     gradcam_image_url: string;
-  }>("/api/predict", formData);
+  }>("/predict", formData);
 
   const { data } = response;
 
   return {
-    disease: data.disease,
+    disease: data.predicted_class,
     confidence: data.confidence,
     classBreakdown: data.class_breakdown.map((c) => ({
       label: c.label,
@@ -70,14 +70,11 @@ async function simulatePrediction(file: File): Promise<PredictionResult> {
     ],
   };
 
-  const confidence = breakdowns[detected].find((c) => c.label === detected)!.confidence;
-
   return {
     disease: detected,
-    confidence,
+    confidence: Math.max(...breakdowns[detected].map((b) => b.confidence)),
     classBreakdown: breakdowns[detected],
-    // Placeholder gradient for the Grad-CAM overlay in demo mode
-    gradcamImageUrl: null,
+    gradcamImageUrl: "https://via.placeholder.com/300x200.png?text=GradCAM",
     originalImageUrl: URL.createObjectURL(file),
     timestamp: new Date().toISOString(),
   };
