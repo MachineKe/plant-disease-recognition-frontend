@@ -36,7 +36,7 @@ export async function predictDisease(file: File): Promise<PredictionResult> {
       label: c.label,
       confidence: c.confidence,
     })),
-    gradcamImageUrl: data.gradcam_image_url,
+    gradcamImageUrl: data.gradcam_image_url + (data.gradcam_image_url.includes('?') ? `&t=${Date.now()}` : `?t=${Date.now()}`),
     originalImageUrl: URL.createObjectURL(file),
     timestamp: new Date().toISOString(),
   };

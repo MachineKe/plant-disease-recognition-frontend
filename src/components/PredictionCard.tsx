@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ShieldCheck, AlertTriangle, Skull, TrendingUp } from "lucide-react";
 import { PredictionResult, DiseaseClass, ClassBreakdown } from "@/types/prediction";
+import GradCAMViewer from "./GradCAMViewer";
 
 interface PredictionCardProps {
   result: PredictionResult;
@@ -133,6 +134,17 @@ export default function PredictionCard({ result }: PredictionCardProps) {
           </div>
         </div>
       </div>
+
+      {/* GradCAM overlay viewer */}
+      {result.originalImageUrl && (
+        <div className="mt-5">
+          {/* Pass gradcamImageUrl to GradCAMViewer if present */}
+          <GradCAMViewer
+            originalUrl={result.originalImageUrl}
+            gradcamUrl={result.gradcamImageUrl || null}
+          />
+        </div>
+      )}
 
       {/* Class breakdown */}
       <ClassBreakdownChart
