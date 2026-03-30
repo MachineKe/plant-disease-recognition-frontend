@@ -14,6 +14,11 @@ export const metadata: Metadata = {
   description:
     "Upload a leaf image and get instant AI-powered disease diagnosis with Grad-CAM heatmap visualization and actionable treatment plans.",
   keywords: ["plant disease", "AI", "agriculture", "Grad-CAM", "deep learning"],
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
