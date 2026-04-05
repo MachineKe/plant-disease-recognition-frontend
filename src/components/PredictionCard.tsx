@@ -135,16 +135,6 @@ export default function PredictionCard({ result }: PredictionCardProps) {
         </div>
       </div>
 
-      {/* GradCAM overlay viewer */}
-      {result.originalImageUrl && (
-        <div className="mt-5">
-          {/* Pass gradcamImageUrl to GradCAMViewer if present */}
-          <GradCAMViewer
-            originalUrl={result.originalImageUrl}
-            gradcamUrl={result.gradcamImageUrl || null}
-          />
-        </div>
-      )}
 
       {/* Class breakdown */}
       <ClassBreakdownChart
